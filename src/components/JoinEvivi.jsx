@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Gift, Store, Bike, PartyPopper, Check } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Gift, Store, Bike, PartyPopper, Check, ChevronDown } from "lucide-react";
 
 const ROLES = [
   {
@@ -36,10 +36,23 @@ const ROLES = [
   },
 ];
 
+const PROVINCES_AND_CITIES = {
+  "Gauteng": ["Johannesburg", "Pretoria", "Sandton", "Centurion", "Soweto", "Randburg", "Midrand", "Benoni"],
+  "Western Cape": ["Cape Town", "Stellenbosch", "Somerset West", "Bellville", "Paarl", "George"],
+  "KwaZulu-Natal": ["Durban", "Umhlanga", "Pietermaritzburg", "Ballito", "Hillcrest"],
+  "Eastern Cape": ["Gqeberha (Port Elizabeth)", "East London", "Mthatha"],
+  "Free State": ["Bloemfontein", "Welkom"],
+  "Limpopo": ["Polokwane", "Tzaneen", "Thohoyandou"],
+  "Mpumalanga": ["Nelspruit (Mbombela)", "Witbank (eMalahleni)", "Secunda"],
+  "North West": ["Rustenburg", "Potchefstroom", "Mahikeng"],
+  "Northern Cape": ["Kimberley", "Upington"],
+};
+
 const initialForm = {
   fullName: "",
   email: "",
   mobile: "",
+  province: "",
   city: "",
   consent: false,
   // seller
@@ -52,7 +65,6 @@ const initialForm = {
   businessDescription: "",
   // driver
   vehicleType: "",
-  deliveryAreas: "",
   availability: "",
   hasSmartphone: "",
   hasDriversLicence: "",
@@ -66,12 +78,84 @@ const initialForm = {
 
 function Field({ label, children, required }) {
   return (
-    <label className="block">
+    <div className="block">
       <span className="mb-1.5 block text-xs font-medium" style={{ color: "var(--color-near-black)" }}>
         {label} {required && <span style={{ color: "var(--color-vibrant-magenta)" }}>*</span>}
       </span>
       {children}
-    </label>
+    </div>
+  );
+}
+
+// Custom Styled Dropdown Component
+function CustomSelect({ value, onChange, options, placeholder, disabled = false, required = false }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <button
+        type="button"
+        disabled={disabled}
+        onClick={() => !disabled && setIsOpen(!isOpen)}
+        className={`w-full flex items-center justify-between rounded-xl border px-4 py-2.5 text-sm outline-none transition-all bg-white text-left ${
+          disabled ? "bg-gray-50 opacity-60 cursor-not-allowed" : "focus:border-[var(--color-vibrant-magenta)]"
+        }`}
+        style={{ borderColor: "var(--color-lavender-border)" }}
+      >
+        <span className={value ? "text-gray-900" : "text-gray-400"}>
+          {value || placeholder}
+        </span>
+        <ChevronDown size={16} className={`text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+      </button>
+
+      {isOpen && !disabled && (
+        <div className="absolute z-50 mt-2 max-h-60 w-full overflow-y-auto rounded-xl border bg-white py-1 shadow-lg" style={{ borderColor: "var(--color-lavender-border)" }}>
+          {options.map((opt) => {
+            const isSelected = value === opt;
+            return (
+              <button
+                key={opt}
+                type="button"
+                onClick={() => {
+                  onChange(opt);
+                  setIsOpen(false);
+                }}
+                className={`w-full px-4 py-2 text-left text-sm transition-colors flex items-center justify-between ${
+                  isSelected ? "bg-pink-50 text-[var(--color-vibrant-magenta)] font-medium" : "text-gray-700 hover:bg-gray-50"
+                }`}
+              >
+                <span>{opt}</span>
+                {isSelected && <Check size={14} style={{ color: "var(--color-vibrant-magenta)" }} />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+      
+      {/* Hidden input for HTML5 form validation compatibility */}
+      {required && (
+        <input 
+          type="text" 
+          value={value} 
+          required 
+          onChange={() => {}} 
+          tabIndex={-1} 
+          aria-hidden="true"
+          className="absolute opacity-0 pointer-events-none h-0 w-0" 
+        />
+      )}
+    </div>
   );
 }
 
@@ -81,11 +165,20 @@ const inputStyle = { borderColor: "var(--color-lavender-border)" };
 
 export default function JoinEvivi() {
   const [role, setRole] = useState("customer");
-  const [step, setStep] = useState(1); // 1: details, 2: (unused), 3: submitted
+  const [step, setStep] = useState(1);
   const [form, setForm] = useState(initialForm);
   const [touchedRole, setTouchedRole] = useState(false);
 
-  const update = (key) => (e) => {
+  const update = (key, value) => {
+    setForm((f) => {
+      if (key === "province") {
+        return { ...f, province: value, city: "" };
+      }
+      return { ...f, [key]: value };
+    });
+  };
+
+  const updateInput = (key) => (e) => {
     const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setForm((f) => ({ ...f, [key]: value }));
   };
@@ -98,11 +191,11 @@ export default function JoinEvivi() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // In production: POST { segment: ROLES.find(r=>r.id===role).segment, ...form }
     setStep(3);
   };
 
   const active = ROLES.find((r) => r.id === role);
+  const availableCities = form.province ? PROVINCES_AND_CITIES[form.province] || [] : [];
 
   return (
     <section id="join" className="py-16 md:py-24" style={{ background: "var(--color-warm-lilac)" }}>
@@ -222,18 +315,37 @@ export default function JoinEvivi() {
                 {/* Shared fields */}
                 <div className="grid gap-4 sm:grid-cols-2">
                   <Field label="Full name" required>
-                    <input required value={form.fullName} onChange={update("fullName")} className={inputClass} style={inputStyle} />
+                    <input required value={form.fullName} onChange={updateInput("fullName")} className={inputClass} style={inputStyle} />
                   </Field>
                   <Field label="Email address" required>
-                    <input type="email" required value={form.email} onChange={update("email")} className={inputClass} style={inputStyle} />
+                    <input type="email" required value={form.email} onChange={updateInput("email")} className={inputClass} style={inputStyle} />
                   </Field>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <Field label="Mobile number" required>
-                    <input required value={form.mobile} onChange={update("mobile")} className={inputClass} style={inputStyle} />
+                    <input required value={form.mobile} onChange={updateInput("mobile")} className={inputClass} style={inputStyle} />
                   </Field>
-                  <Field label={role === "seller" || role === "driver" || role === "planner" ? "City / areas served" : "Your area / city"} required>
-                    <input required value={form.city} onChange={update("city")} className={inputClass} style={inputStyle} />
+                  <Field label="Province" required>
+                    <CustomSelect
+                      required
+                      value={form.province}
+                      onChange={(val) => update("province", val)}
+                      options={Object.keys(PROVINCES_AND_CITIES)}
+                      placeholder="Select province"
+                    />
+                  </Field>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Field label="City / Area" required>
+                    <CustomSelect
+                      required
+                      value={form.city}
+                      onChange={(val) => update("city", val)}
+                      options={availableCities}
+                      placeholder={form.province ? "Select city / area" : "Select province first"}
+                      disabled={!form.province}
+                    />
                   </Field>
                 </div>
 
@@ -242,22 +354,22 @@ export default function JoinEvivi() {
                   <>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field label="Business name" required>
-                        <input required value={form.businessName} onChange={update("businessName")} className={inputClass} style={inputStyle} />
+                        <input required value={form.businessName} onChange={updateInput("businessName")} className={inputClass} style={inputStyle} />
                       </Field>
                       <Field label="Business category" required>
-                        <input required value={form.businessCategory} onChange={update("businessCategory")} className={inputClass} style={inputStyle} placeholder="Florist, bakery, hamper..." />
+                        <input required value={form.businessCategory} onChange={updateInput("businessCategory")} className={inputClass} style={inputStyle} placeholder="Florist, bakery, hamper..." />
                       </Field>
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field label="Do you offer delivery?" required>
-                        <select required value={form.offersDelivery} onChange={update("offersDelivery")} className={inputClass} style={inputStyle}>
+                        <select required value={form.offersDelivery} onChange={updateInput("offersDelivery")} className={inputClass} style={inputStyle}>
                           <option value="">Select</option>
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
                         </select>
                       </Field>
                       <Field label="Do you offer collection?" required>
-                        <select required value={form.offersCollection} onChange={update("offersCollection")} className={inputClass} style={inputStyle}>
+                        <select required value={form.offersCollection} onChange={updateInput("offersCollection")} className={inputClass} style={inputStyle}>
                           <option value="">Select</option>
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
@@ -265,14 +377,14 @@ export default function JoinEvivi() {
                       </Field>
                     </div>
                     <Field label="Types of gifts / Valentine packages sold" required>
-                      <input required value={form.giftTypes} onChange={update("giftTypes")} className={inputClass} style={inputStyle} />
+                      <input required value={form.giftTypes} onChange={updateInput("giftTypes")} className={inputClass} style={inputStyle} />
                     </Field>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field label="Instagram / website (optional)">
-                        <input value={form.instagram} onChange={update("instagram")} className={inputClass} style={inputStyle} />
+                        <input value={form.instagram} onChange={updateInput("instagram")} className={inputClass} style={inputStyle} />
                       </Field>
                       <Field label="Short business description (optional)">
-                        <input value={form.businessDescription} onChange={update("businessDescription")} className={inputClass} style={inputStyle} />
+                        <input value={form.businessDescription} onChange={updateInput("businessDescription")} className={inputClass} style={inputStyle} />
                       </Field>
                     </div>
                   </>
@@ -281,40 +393,35 @@ export default function JoinEvivi() {
                 {/* Driver fields */}
                 {role === "driver" && (
                   <>
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <Field label="Vehicle type" required>
-                        <select required value={form.vehicleType} onChange={update("vehicleType")} className={inputClass} style={inputStyle}>
-                          <option value="">Select</option>
-                          <option>Car</option>
-                          <option>Motorcycle</option>
-                          <option>Scooter</option>
-                          <option>Other</option>
-                        </select>
-                      </Field>
-                      <Field label="Areas willing to deliver" required>
-                        <input required value={form.deliveryAreas} onChange={update("deliveryAreas")} className={inputClass} style={inputStyle} />
-                      </Field>
-                    </div>
+                    <Field label="Vehicle type" required>
+                      <select required value={form.vehicleType} onChange={updateInput("vehicleType")} className={inputClass} style={inputStyle}>
+                        <option value="">Select</option>
+                        <option>Car</option>
+                        <option>Motorcycle</option>
+                        <option>Scooter</option>
+                        <option>Other</option>
+                      </select>
+                    </Field>
                     <Field label="Typical availability" required>
-                      <input required value={form.availability} onChange={update("availability")} className={inputClass} style={inputStyle} placeholder="Weekday evenings, weekends..." />
+                      <input required value={form.availability} onChange={updateInput("availability")} className={inputClass} style={inputStyle} placeholder="Weekday evenings, weekends..." />
                     </Field>
                     <div className="grid gap-4 sm:grid-cols-3">
                       <Field label="Own smartphone?" required>
-                        <select required value={form.hasSmartphone} onChange={update("hasSmartphone")} className={inputClass} style={inputStyle}>
+                        <select required value={form.hasSmartphone} onChange={updateInput("hasSmartphone")} className={inputClass} style={inputStyle}>
                           <option value="">Select</option>
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
                         </select>
                       </Field>
                       <Field label="Valid driver's licence?" required>
-                        <select required value={form.hasDriversLicence} onChange={update("hasDriversLicence")} className={inputClass} style={inputStyle}>
+                        <select required value={form.hasDriversLicence} onChange={updateInput("hasDriversLicence")} className={inputClass} style={inputStyle}>
                           <option value="">Select</option>
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
                         </select>
                       </Field>
                       <Field label="Valid vehicle licence?" required>
-                        <select required value={form.hasVehicleLicence} onChange={update("hasVehicleLicence")} className={inputClass} style={inputStyle}>
+                        <select required value={form.hasVehicleLicence} onChange={updateInput("hasVehicleLicence")} className={inputClass} style={inputStyle}>
                           <option value="">Select</option>
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
@@ -323,7 +430,7 @@ export default function JoinEvivi() {
                       </Field>
                     </div>
                     <Field label="Willing to complete identity / driver verification if selected?" required>
-                      <select required value={form.verificationConsent} onChange={update("verificationConsent")} className={inputClass} style={inputStyle}>
+                      <select required value={form.verificationConsent} onChange={updateInput("verificationConsent")} className={inputClass} style={inputStyle}>
                         <option value="">Select</option>
                         <option value="yes">Yes</option>
                         <option value="no">No</option>
@@ -337,18 +444,18 @@ export default function JoinEvivi() {
                   <>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field label="Business name" required>
-                        <input required value={form.businessName} onChange={update("businessName")} className={inputClass} style={inputStyle} />
+                        <input required value={form.businessName} onChange={updateInput("businessName")} className={inputClass} style={inputStyle} />
                       </Field>
                       <Field label="Service category" required>
-                        <input required value={form.serviceCategory} onChange={update("serviceCategory")} className={inputClass} style={inputStyle} placeholder="Planner, venue, decor..." />
+                        <input required value={form.serviceCategory} onChange={updateInput("serviceCategory")} className={inputClass} style={inputStyle} placeholder="Planner, venue, decor..." />
                       </Field>
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field label="Website / social profile (optional)">
-                        <input value={form.website} onChange={update("website")} className={inputClass} style={inputStyle} />
+                        <input value={form.website} onChange={updateInput("website")} className={inputClass} style={inputStyle} />
                       </Field>
                       <Field label="Short description (optional)">
-                        <input value={form.plannerDescription} onChange={update("plannerDescription")} className={inputClass} style={inputStyle} />
+                        <input value={form.plannerDescription} onChange={updateInput("plannerDescription")} className={inputClass} style={inputStyle} />
                       </Field>
                     </div>
                   </>
@@ -359,7 +466,7 @@ export default function JoinEvivi() {
                     type="checkbox"
                     required
                     checked={form.consent}
-                    onChange={update("consent")}
+                    onChange={updateInput("consent")}
                     className="mt-0.5 h-4 w-4 shrink-0 rounded"
                     style={{ accentColor: "var(--color-vibrant-magenta)" }}
                   />

@@ -1,5 +1,5 @@
 import { Heart } from "lucide-react";
-import HeroImage from "../assets/images/hero-gift.jpg";
+import HeroImage from "../assets/images/Hero-images.png";
 
 
 
