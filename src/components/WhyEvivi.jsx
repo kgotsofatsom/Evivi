@@ -4,22 +4,22 @@ const benefits = [
   {
     icon: Search,
     title: "Find the right gift faster",
-    copy: "Curated, guided discovery rather than long and confusing catalogues.",
+    copy: "Guided discovery that helps you find relevant gifts without endless searching",
   },
   {
     icon: MapPin,
     title: "Shop closer to home",
-    copy: "Discover participating local sellers and fulfilment options near where the gift needs to go.",
+    copy: "Discover gifts from participating local sellers near where the gift needs to go.",
   },
   {
     icon: PackageCheck,
     title: "Fulfilment that fits",
-    copy: "Choose seller delivery or collection, shown clearly before you order.",
+    copy: "Choose available delivery or collection options before you order.",
   },
   {
     icon: ShieldCheck,
     title: "A structured order journey",
-    copy: "Move away from scattered DMs toward orders you can follow through fulfilment.",
+    copy: "Keep track of your gift order from purchase through fulfilment.",
   },
 ];
 

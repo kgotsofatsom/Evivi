@@ -34,7 +34,7 @@ const columns = [
   },
   {
     title: "Partners",
-    links: ["Delivery Partners", "Planner & Suppliers", "Partner FAQ"],
+    links: ["Delivery Partners", "Event Planners & Coordinators", "Partner FAQ"],
   },
   {
     title: "Company",

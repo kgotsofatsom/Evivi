@@ -4,7 +4,7 @@ const steps = [
   {
     icon: Search,
     title: "Discover",
-    copy: "Explore Valentine gift packages from local gift businesses.",
+    copy: "Explore relevant Valentine gifts from participating local sellers.",
   },
   {
     icon: Gift,
@@ -14,12 +14,12 @@ const steps = [
   {
     icon: Truck,
     title: "Deliver or collect",
-    copy: "Choose an available seller delivery option or customer collection, depending on the package.",
+    copy: "Choose an available delivery or collection option for your gift.",
   },
   {
     icon: ClipboardCheck,
     title: "Follow your order",
-    copy: "Complete the transaction and follow the order through fulfilment.",
+    copy: "Complete your purchase and follow your gift through fulfilment.",
   },
 ];
 
@@ -33,7 +33,7 @@ export default function HowItWorks() {
             How Evivi works
           </p>
           <h2 className="mt-3 text-4xl leading-[1.08] text-plum-deep md:text-5xl">
-            A simpler way to find and send the right gift
+            A simpler way to find, choose and send the right gift.
           </h2>
         </div>
         <ol className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">

@@ -8,7 +8,7 @@ const futureMoments = [
   { icon: Baby, label: "Baby Showers" },
   { icon: GraduationCap, label: "Graduations" },
   { icon: PartyPopper, label: "Events & Celebrations" },
-  { icon: Users2, label: "Planners & Suppliers" },
+  { icon: Users2, label: "Event Planners & Coordinators" },
   { icon: Truck, label: "Delivery & Fulfilment" },
 ];
 
@@ -24,8 +24,7 @@ export default function BeyondValentine() {
           Valentine is where we start. Celebrations are where we're going.
         </h2>
         <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-          Evivi is being built around the wider celebration journey — connecting customers with
-          the businesses, planners and services that help meaningful moments happen.
+          Evivi is being built around the wider celebration journey, connecting gift buyers with the businesses, planners and services that help meaningful moments happen.
         </p>
       </div>
       <ul className="mx-auto mt-10 grid max-w-5xl grid-cols-2 gap-4 sm:grid-cols-4">

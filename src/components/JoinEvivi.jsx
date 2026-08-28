@@ -5,15 +5,15 @@ const ROLES = [
   {
     id: "customer",
     icon: Gift,
-    title: "I want to shop",
-    copy: "Join as a shopper for early access.",
+    title: "Buy a gift",
+    copy: "Discover and shop gifts for the moments that matter.",
     segment: "CUSTOMER_EARLY_ACCESS",
     cta: "Join Early Access",
   },
   {
     id: "seller",
     icon: Store,
-    title: "I sell gifts",
+    title: "Sell gifts",
     copy: "Apply to sell on the marketplace.",
     segment: "GIFT_SELLER_BETA",
     cta: "Apply for Seller Beta",
@@ -21,16 +21,16 @@ const ROLES = [
   {
     id: "driver",
     icon: Bike,
-    title: "I want to deliver",
-    copy: "Join the delivery partner network.",
+    title: "Deliver gifts",
+    copy: "Join the Evivi delivery partner network.",
     segment: "DELIVERY_PARTNER_WAITLIST",
     cta: "Join Delivery Waitlist",
   },
   {
     id: "planner",
     icon: PartyPopper,
-    title: "I'm a planner / supplier",
-    copy: "Join the future marketplace.",
+    title: "I'm an event planner or supplier",
+    copy: "Join the future marketplace as a planner or supplier.",
     segment: "FUTURE_MARKETPLACE_WAITLIST",
     cta: "Join Future Marketplace",
   },
@@ -48,6 +48,37 @@ const PROVINCES_AND_CITIES = {
   "Northern Cape": ["Kimberley", "Upington"],
 };
 
+const BUSINESS_CATEGORIES = [
+  "Florist",
+  "Bakery",
+  "Hamper & gift box",
+  "Chocolatier / confectionery",
+  "Balloons & decor",
+  "Jewellery & accessories",
+  "Personalised / custom gifts",
+  "Wine & spirits",
+  "Other",
+];
+
+const AVAILABILITY_OPTIONS = [
+  "Weekday mornings",
+  "Weekday afternoons",
+  "Weekday evenings",
+  "Weekends",
+  "Public holidays",
+];
+
+const SERVICE_CATEGORIES = [
+  "Event planner",
+  "Venue",
+  "Decor & styling",
+  "Catering",
+  "Photography / videography",
+  "Entertainment",
+  "Florist",
+  "Other",
+];
+
 const initialForm = {
   fullName: "",
   email: "",
@@ -57,21 +88,20 @@ const initialForm = {
   consent: false,
   // seller
   businessName: "",
-  businessCategory: "",
+  businessCategory: [],
   instagram: "",
   offersDelivery: "",
   offersCollection: "",
-  giftTypes: "",
   businessDescription: "",
   // driver
   vehicleType: "",
-  availability: "",
+  availability: [],
   hasSmartphone: "",
   hasDriversLicence: "",
   hasVehicleLicence: "",
   verificationConsent: "",
   // planner
-  serviceCategory: "",
+  serviceCategory: [],
   website: "",
   plannerDescription: "",
 };
@@ -87,7 +117,7 @@ function Field({ label, children, required }) {
   );
 }
 
-// Custom Styled Dropdown Component
+// Custom Styled Dropdown Component (single choice)
 function CustomSelect({ value, onChange, options, placeholder, disabled = false, required = false }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -142,17 +172,109 @@ function CustomSelect({ value, onChange, options, placeholder, disabled = false,
           })}
         </div>
       )}
-      
-      {/* Hidden input for HTML5 form validation compatibility */}
+
       {required && (
-        <input 
-          type="text" 
-          value={value} 
-          required 
-          onChange={() => {}} 
-          tabIndex={-1} 
+        <input
+          type="text"
+          value={value}
+          required
+          onChange={() => {}}
+          tabIndex={-1}
           aria-hidden="true"
-          className="absolute opacity-0 pointer-events-none h-0 w-0" 
+          className="absolute opacity-0 pointer-events-none h-0 w-0"
+        />
+      )}
+    </div>
+  );
+}
+
+// Custom Styled Dropdown Component (multi choice, with checkboxes + chips)
+function MultiSelect({ value, onChange, options, placeholder, required = false }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggleOption = (opt) => {
+    if (value.includes(opt)) {
+      onChange(value.filter((v) => v !== opt));
+    } else {
+      onChange([...value, opt]);
+    }
+  };
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between gap-2 rounded-xl border px-4 py-2.5 text-sm outline-none transition-all bg-white text-left focus:border-[var(--color-vibrant-magenta)]"
+        style={{ borderColor: "var(--color-lavender-border)" }}
+      >
+        {value.length === 0 ? (
+          <span className="text-gray-400">{placeholder}</span>
+        ) : (
+          <span className="flex flex-wrap gap-1.5 py-0.5">
+            {value.map((v) => (
+              <span
+                key={v}
+                className="rounded-full px-2.5 py-0.5 text-xs font-medium"
+                style={{ background: "var(--color-warm-lilac)", color: "var(--color-vibrant-magenta)" }}
+              >
+                {v}
+              </span>
+            ))}
+          </span>
+        )}
+        <ChevronDown size={16} className={`shrink-0 text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+      </button>
+
+      {isOpen && (
+        <div className="absolute z-50 mt-2 max-h-60 w-full overflow-y-auto rounded-xl border bg-white py-1 shadow-lg" style={{ borderColor: "var(--color-lavender-border)" }}>
+          {options.map((opt) => {
+            const isSelected = value.includes(opt);
+            return (
+              <button
+                key={opt}
+                type="button"
+                onClick={() => toggleOption(opt)}
+                className={`w-full px-4 py-2 text-left text-sm transition-colors flex items-center gap-2.5 ${
+                  isSelected ? "bg-pink-50 text-[var(--color-vibrant-magenta)] font-medium" : "text-gray-700 hover:bg-gray-50"
+                }`}
+              >
+                <span
+                  className="flex h-4 w-4 shrink-0 items-center justify-center rounded border-2"
+                  style={{
+                    borderColor: isSelected ? "var(--color-vibrant-magenta)" : "var(--color-lavender-border)",
+                    background: isSelected ? "var(--color-vibrant-magenta)" : "transparent",
+                  }}
+                >
+                  {isSelected && <Check size={10} color="#fff" strokeWidth={3} />}
+                </span>
+                {opt}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {required && (
+        <input
+          type="text"
+          value={value.length ? "filled" : ""}
+          required
+          onChange={() => {}}
+          tabIndex={-1}
+          aria-hidden="true"
+          className="absolute opacity-0 pointer-events-none h-0 w-0"
         />
       )}
     </div>
@@ -264,25 +386,9 @@ export default function JoinEvivi() {
 
           {/* Dynamic form */}
           <div className="rounded-[24px] border bg-white p-6 md:p-8" style={{ borderColor: "var(--color-lavender-border)" }}>
-            <div className="mb-6 flex items-center justify-between">
-              <h3 className="font-display text-xl font-semibold" style={{ color: "var(--color-deep-plum)" }}>
-                Tell us a bit about yourself
-              </h3>
-              <div className="flex items-center gap-2" aria-hidden="true">
-                {[1, 2, 3].map((n) => (
-                  <span
-                    key={n}
-                    className="flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-medium"
-                    style={{
-                      background: step >= n ? "var(--color-vibrant-magenta)" : "var(--color-lavender-border)",
-                      color: step >= n ? "#fff" : "var(--color-muted-purple)",
-                    }}
-                  >
-                    {n}
-                  </span>
-                ))}
-              </div>
-            </div>
+            <h3 className="mb-6 font-display text-xl font-semibold" style={{ color: "var(--color-deep-plum)" }}>
+              Tell us a bit about yourself
+            </h3>
 
             {step === 3 ? (
               <div className="flex flex-col items-center py-10 text-center">
@@ -296,7 +402,7 @@ export default function JoinEvivi() {
                   You're on the list
                 </h4>
                 <p className="mt-2 max-w-[340px] text-sm" style={{ color: "var(--color-muted-purple)" }}>
-                  Thanks for joining as "{active.title.replace(/^I(?:'m| want)?\s*/i, "")}" — we'll be in touch with
+                  Thanks for joining Evivi to "{active.title}" — we'll be in touch with
                   updates as Evivi's launch gets closer.
                 </p>
                 <button
@@ -352,33 +458,38 @@ export default function JoinEvivi() {
                 {/* Seller fields */}
                 {role === "seller" && (
                   <>
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <Field label="Business name" required>
-                        <input required value={form.businessName} onChange={updateInput("businessName")} className={inputClass} style={inputStyle} />
-                      </Field>
-                      <Field label="Business category" required>
-                        <input required value={form.businessCategory} onChange={updateInput("businessCategory")} className={inputClass} style={inputStyle} placeholder="Florist, bakery, hamper..." />
-                      </Field>
-                    </div>
+                    <Field label="Business name" required>
+                      <input required value={form.businessName} onChange={updateInput("businessName")} className={inputClass} style={inputStyle} />
+                    </Field>
+                    <Field label="Business category" required>
+                      <MultiSelect
+                        required
+                        value={form.businessCategory}
+                        onChange={(val) => update("businessCategory", val)}
+                        options={BUSINESS_CATEGORIES}
+                        placeholder="Select all categories that apply"
+                      />
+                    </Field>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field label="Do you offer delivery?" required>
-                        <select required value={form.offersDelivery} onChange={updateInput("offersDelivery")} className={inputClass} style={inputStyle}>
-                          <option value="">Select</option>
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option>
-                        </select>
+                        <CustomSelect
+                          required
+                          value={form.offersDelivery}
+                          onChange={(val) => update("offersDelivery", val)}
+                          options={["Yes", "No"]}
+                          placeholder="Select"
+                        />
                       </Field>
                       <Field label="Do you offer collection?" required>
-                        <select required value={form.offersCollection} onChange={updateInput("offersCollection")} className={inputClass} style={inputStyle}>
-                          <option value="">Select</option>
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option>
-                        </select>
+                        <CustomSelect
+                          required
+                          value={form.offersCollection}
+                          onChange={(val) => update("offersCollection", val)}
+                          options={["Yes", "No"]}
+                          placeholder="Select"
+                        />
                       </Field>
                     </div>
-                    <Field label="Types of gifts / Valentine packages sold" required>
-                      <input required value={form.giftTypes} onChange={updateInput("giftTypes")} className={inputClass} style={inputStyle} />
-                    </Field>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field label="Instagram / website (optional)">
                         <input value={form.instagram} onChange={updateInput("instagram")} className={inputClass} style={inputStyle} />
@@ -394,47 +505,60 @@ export default function JoinEvivi() {
                 {role === "driver" && (
                   <>
                     <Field label="Vehicle type" required>
-                      <select required value={form.vehicleType} onChange={updateInput("vehicleType")} className={inputClass} style={inputStyle}>
-                        <option value="">Select</option>
-                        <option>Car</option>
-                        <option>Motorcycle</option>
-                        <option>Scooter</option>
-                        <option>Other</option>
-                      </select>
+                      <CustomSelect
+                        required
+                        value={form.vehicleType}
+                        onChange={(val) => update("vehicleType", val)}
+                        options={["Car", "Motorcycle", "Scooter", "Other"]}
+                        placeholder="Select"
+                      />
                     </Field>
                     <Field label="Typical availability" required>
-                      <input required value={form.availability} onChange={updateInput("availability")} className={inputClass} style={inputStyle} placeholder="Weekday evenings, weekends..." />
+                      <MultiSelect
+                        required
+                        value={form.availability}
+                        onChange={(val) => update("availability", val)}
+                        options={AVAILABILITY_OPTIONS}
+                        placeholder="Select all that apply"
+                      />
                     </Field>
                     <div className="grid gap-4 sm:grid-cols-3">
                       <Field label="Own smartphone?" required>
-                        <select required value={form.hasSmartphone} onChange={updateInput("hasSmartphone")} className={inputClass} style={inputStyle}>
-                          <option value="">Select</option>
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option>
-                        </select>
+                        <CustomSelect
+                          required
+                          value={form.hasSmartphone}
+                          onChange={(val) => update("hasSmartphone", val)}
+                          options={["Yes", "No"]}
+                          placeholder="Select"
+                        />
                       </Field>
                       <Field label="Valid driver's licence?" required>
-                        <select required value={form.hasDriversLicence} onChange={updateInput("hasDriversLicence")} className={inputClass} style={inputStyle}>
-                          <option value="">Select</option>
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option>
-                        </select>
+                        <CustomSelect
+                          required
+                          value={form.hasDriversLicence}
+                          onChange={(val) => update("hasDriversLicence", val)}
+                          options={["Yes", "No"]}
+                          placeholder="Select"
+                        />
                       </Field>
                       <Field label="Valid vehicle licence?" required>
-                        <select required value={form.hasVehicleLicence} onChange={updateInput("hasVehicleLicence")} className={inputClass} style={inputStyle}>
-                          <option value="">Select</option>
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option>
-                          <option value="na">Not applicable</option>
-                        </select>
+                        <CustomSelect
+                          required
+                          value={form.hasVehicleLicence}
+                          onChange={(val) => update("hasVehicleLicence", val)}
+                          options={["Yes", "No", "Not applicable"]}
+                          placeholder="Select"
+                        />
                       </Field>
                     </div>
                     <Field label="Willing to complete identity / driver verification if selected?" required>
-                      <select required value={form.verificationConsent} onChange={updateInput("verificationConsent")} className={inputClass} style={inputStyle}>
-                        <option value="">Select</option>
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
-                      </select>
+                      <CustomSelect
+                        required
+                        value={form.verificationConsent}
+                        onChange={(val) => update("verificationConsent", val)}
+                        options={["Yes", "No"]}
+                        placeholder="Select"
+                      />
                     </Field>
                   </>
                 )}
@@ -442,14 +566,18 @@ export default function JoinEvivi() {
                 {/* Planner fields */}
                 {role === "planner" && (
                   <>
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <Field label="Business name" required>
-                        <input required value={form.businessName} onChange={updateInput("businessName")} className={inputClass} style={inputStyle} />
-                      </Field>
-                      <Field label="Service category" required>
-                        <input required value={form.serviceCategory} onChange={updateInput("serviceCategory")} className={inputClass} style={inputStyle} placeholder="Planner, venue, decor..." />
-                      </Field>
-                    </div>
+                    <Field label="Business name" required>
+                      <input required value={form.businessName} onChange={updateInput("businessName")} className={inputClass} style={inputStyle} />
+                    </Field>
+                    <Field label="Service category" required>
+                      <MultiSelect
+                        required
+                        value={form.serviceCategory}
+                        onChange={(val) => update("serviceCategory", val)}
+                        options={SERVICE_CATEGORIES}
+                        placeholder="Select all categories that apply"
+                      />
+                    </Field>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field label="Website / social profile (optional)">
                         <input value={form.website} onChange={updateInput("website")} className={inputClass} style={inputStyle} />

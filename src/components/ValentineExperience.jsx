@@ -30,9 +30,8 @@ export default function ValentineExperience() {
             Start with Valentine gifting
           </h2>
           <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-            Evivi's first release focuses on ready-to-order Valentine gift packages from
-            participating local businesses — making it easier to discover, choose and fulfil a
-            meaningful gift.
+            Evivi's first release focuses on ready-to-order Valentine gifts from participating local sellers, 
+            making it easier to discover, choose and fulfil a meaningful gift.
           </p>
           <p className="mt-5 font-display text-2xl text-plum">
             Valentine is the first Evivi experience — not the last.

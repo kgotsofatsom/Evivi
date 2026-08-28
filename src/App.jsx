@@ -14,18 +14,18 @@ import Footer from "./components/Footer";
 
 export default function App() {
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-[var(--color-blush-white)] text-[var(--color-near-black)]">
             <Navbar />
             <main>
-                    <Hero />
-                    <WhyEvivi />
-                    <HowItWorks />
-                    <ValentineExperience />
-                    <SellerGrowth />
-                    <DeliveryPartners />
-                    <BeyondValentine />
-                    <JoinEvivi />
-                    <ClosingCTA />
+                <Hero />
+                <WhyEvivi />
+                <HowItWorks />
+                <ValentineExperience />
+                <SellerGrowth />
+                <DeliveryPartners />
+                <BeyondValentine />
+                <JoinEvivi />
+                <ClosingCTA />
             </main>
             <Footer />
         </div>

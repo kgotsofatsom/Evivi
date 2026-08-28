@@ -1,7 +1,7 @@
 import deliveryPartner from "../assets/images/delivery-partner.jpg";
 
 const registrationPoints = [
-  "Register for eligible local delivery opportunities",
+  "Access eligible local delivery opportunities",
   "Potential demand from multiple participating sellers",
   "Indicate the areas and times you can support",
   "Grow with the network as Evivi expands",
@@ -20,9 +20,8 @@ export default function DeliveryPartners() {
             Help local gifts get where they need to go
           </h2>
           <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-            Evivi is building a network of independent delivery partners who may help
-            participating sellers fulfil eligible local orders. If you have reliable transport
-            and want to deliver with Evivi, register your interest for future onboarding.
+            Evivi is building a network of independent delivery partners who can help participating
+            sellers fulfil eligible local orders. If you have reliable transport and want to deliver with Evivi, join the delivery partner waitlist.
           </p>
           <ul className="mt-6 grid gap-3 sm:grid-cols-2">
             {registrationPoints.map((item) => (

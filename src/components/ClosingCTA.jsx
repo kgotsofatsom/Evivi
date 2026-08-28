@@ -9,8 +9,7 @@ export default function ClosingCTA() {
           Be there from the beginning.
         </h2>
         <p className="mx-auto mt-5 max-w-xl text-base text-primary-foreground/80">
-          Evivi launches with Valentine gifting in 2027. Join early, discover what's coming, and
-          help us build a better way to celebrate.
+          Evivi launches with Valentine gifting in 2027. Join early to discover what's coming and help shape a better way to celebrate.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
           
@@ -23,7 +22,7 @@ export default function ClosingCTA() {
             href="#seller-beta"
             className="inline-flex items-center gap-1.5 text-sm text-primary-foreground/85 underline-offset-4 hover:underline"
           >
-            Sell gifts on Evivi <ArrowRight className="size-4" />
+            Sell Gifts on Evivi <ArrowRight className="size-4" />
           </a>
         </div>
       </div>
