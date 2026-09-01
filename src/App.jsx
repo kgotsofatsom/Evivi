@@ -1,3 +1,4 @@
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import WhyEvivi from "./components/WhyEvivi";
@@ -11,22 +12,30 @@ import BeyondValentine from "./components/BeyondValentine";
 import JoinEvivi from "./components/JoinEvivi";
 import ClosingCTA from "./components/ClosingCTA";
 import Footer from "./components/Footer";
+import HowToSell from "./components/HowToSell";
+import HowToDeliver from "./components/HowToDeliver";
 
 export default function App() {
     return (
         <div className="min-h-screen bg-[var(--color-blush-white)] text-[var(--color-near-black)]">
             <Navbar />
-            <main>
-                <Hero />
-                <WhyEvivi />
-                <HowItWorks />
-                <ValentineExperience />
-                <SellerGrowth />
-                <DeliveryPartners />
-                <BeyondValentine />
-                <JoinEvivi />
-                <ClosingCTA />
-            </main>
+            <Routes>
+                <Route path="/" element={
+                    <main>
+                        <Hero />
+                        <WhyEvivi />
+                        <HowItWorks />
+                        <ValentineExperience />
+                        <SellerGrowth />
+                        <DeliveryPartners />
+                        <BeyondValentine />
+                        <JoinEvivi />
+                        <ClosingCTA />
+                    </main>
+                } />
+                <Route path="/HowToSell" element={<HowToSell />} />
+                <Route path="/HowToDeliver" element={<HowToDeliver />} />
+            </Routes>
             <Footer />
         </div>
     );

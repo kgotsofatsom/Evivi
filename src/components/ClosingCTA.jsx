@@ -12,18 +12,33 @@ export default function ClosingCTA() {
           Evivi launches with Valentine gifting in 2027. Join early to discover what's coming and help shape a better way to celebrate.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          
-         <a href="#join"
+          <button
+            type="button"
+            onClick={() => {
+              window.dispatchEvent(
+                new CustomEvent("evivi-select-role", {
+                  detail: "customer",
+                })
+              );
+            }}
             className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 font-medium text-plum-deep transition-transform hover:-translate-y-0.5"
           >
             Get Valentine Early Access
-          </a>
-          <a
-            href="#seller-beta"
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              window.dispatchEvent(
+                new CustomEvent("evivi-select-role", {
+                  detail: "seller",
+                })
+              );
+            }}
             className="inline-flex items-center gap-1.5 text-sm text-primary-foreground/85 underline-offset-4 hover:underline"
           >
             Sell Gifts on Evivi <ArrowRight className="size-4" />
-          </a>
+          </button>
         </div>
       </div>
     </section>

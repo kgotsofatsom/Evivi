@@ -291,6 +291,41 @@ export default function JoinEvivi() {
   const [form, setForm] = useState(initialForm);
   const [touchedRole, setTouchedRole] = useState(false);
 
+    useEffect(() => {
+    const applyRole = (selectedRole) => {
+      if (ROLES.some((r) => r.id === selectedRole)) {
+        setRole(selectedRole);
+        setTouchedRole(true);
+        setStep(1);
+
+        setTimeout(() => {
+          document.getElementById("join")?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }, 50);
+      }
+    };
+
+    // Handle role passed via cross-page navigation (Link + sessionStorage)
+    const storedRole = sessionStorage.getItem("evivi-selected-role");
+    if (storedRole) {
+      applyRole(storedRole);
+      sessionStorage.removeItem("evivi-selected-role");
+    }
+
+    // Handle role passed via same-page CustomEvent (existing button behavior)
+    const handleRoleSelection = (event) => {
+      applyRole(event.detail);
+    };
+
+    window.addEventListener("evivi-select-role", handleRoleSelection);
+
+    return () => {
+      window.removeEventListener("evivi-select-role", handleRoleSelection);
+    };
+  }, []);
+
   const update = (key, value) => {
     setForm((f) => {
       if (key === "province") {
@@ -622,3 +657,8 @@ export default function JoinEvivi() {
     </section>
   );
 }
+
+
+
+
+

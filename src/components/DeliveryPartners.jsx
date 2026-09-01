@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import deliveryPartner from "../assets/images/delivery-partner.jpg";
 
 const registrationPoints = [
@@ -33,9 +35,27 @@ export default function DeliveryPartners() {
               </li>
             ))}
           </ul>
-          <a href="#join" className="btn-primary mt-8">
-            Join the Delivery Partner Waitlist
-          </a>
+          <button
+            type="button"
+            onClick={() => {
+              window.dispatchEvent(
+                new CustomEvent("evivi-select-role", {
+                  detail: "driver",
+                })
+              );
+            }}
+            className="btn-primary mt-8"
+          >
+            Join the Delivery Partner Waitlist 
+          </button>
+          <div className="mt-4">
+            <Link
+              to="/HowToDeliver"
+              className="inline-flex items-center gap-1.5 text-sm text-plum-deep underline-offset-4 hover:underline"
+            >
+              Learn how to become a delivery partner <ArrowRight className="size-4" />
+            </Link>
+          </div>
         </div>
         <div className="overflow-hidden rounded-[2rem] shadow-soft">
           <img
