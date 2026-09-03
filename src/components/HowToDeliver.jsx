@@ -192,14 +192,9 @@ export default function HowToBecomeDeliveryPartner() {
 
           </div>
         </section>
-
-
-        {/* =========================================================
-            HOW IT WORKS
-        ========================================================== */}
-        <section
+       <section
           id="delivery-journey"
-          className="px-5 py-14 sm:px-8 md:py-18"
+          className="px-5 py-10 sm:px-8 md:py-14"
         >
           <div className="mx-auto max-w-6xl">
 
@@ -208,36 +203,36 @@ export default function HowToBecomeDeliveryPartner() {
                 The delivery journey
               </p>
 
-              <h2 className="mt-2 font-display text-4xl leading-tight text-[var(--color-deep-plum)] md:text-5xl">
+              <h2 className="mt-2 font-display text-3xl leading-tight text-[var(--color-deep-plum)] md:text-4xl">
                 From opportunity to doorstep.
               </h2>
 
-              <p className="mt-4 text-base leading-relaxed text-[var(--color-muted-foreground)]">
+              <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted-foreground)] md:text-base">
                 Here's how the delivery partner journey is designed to work.
               </p>
             </div>
 
-            <div className="mt-9 grid gap-0 border-t border-[var(--color-lavender-border)] md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-7 grid gap-0 border-t border-[var(--color-lavender-border)] md:grid-cols-2 lg:grid-cols-3">
 
               {journeySteps.map((step, index) => (
                 <div
                   key={step.num}
-                  className={`group border-b border-[var(--color-lavender-border)] p-6 transition-colors hover:bg-white ${
+                  className={`group border-b border-[var(--color-lavender-border)] p-5 transition-colors hover:bg-white ${
                     index % 3 !== 2 ? "lg:border-r" : ""
                   } ${
                     index % 2 !== 1 ? "md:border-r lg:border-r-0" : ""
                   }`}
                 >
 
-                  <span className="font-display text-3xl text-[var(--color-vibrant-magenta)]/70 transition-colors group-hover:text-[var(--color-vibrant-magenta)]">
+                  <span className="font-display text-2xl text-[var(--color-vibrant-magenta)]/70 transition-colors group-hover:text-[var(--color-vibrant-magenta)]">
                     {step.num}
                   </span>
 
-                  <h3 className="mt-4 font-display text-xl font-semibold text-[var(--color-deep-plum)]">
+                  <h3 className="mt-3 font-display text-lg font-semibold text-[var(--color-deep-plum)]">
                     {step.title}
                   </h3>
 
-                  <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted-foreground)]">
+                  <p className="mt-1.5 text-sm leading-relaxed text-[var(--color-muted-foreground)]">
                     {step.copy}
                   </p>
 
@@ -248,25 +243,22 @@ export default function HowToBecomeDeliveryPartner() {
           </div>
         </section>
 
-
-        {/* =========================================================
-            DELIVERY IN PRACTICE
-        ========================================================== */}
+        
         <section className="px-5 py-6 sm:px-8 md:py-8">
           <div className="mx-auto grid max-w-6xl overflow-hidden rounded-[2.5rem] bg-white shadow-soft lg:grid-cols-2">
 
-            <div className="min-h-[320px] lg:min-h-[420px]">
+            <div className="relative h-[420px] lg:h-[460px]">
               <img
                 src={deliveryBag}
                 alt="Delivery bag and carefully prepared gift package"
                 loading="lazy"
                 width={1200}
                 height={1000}
-                className="h-full w-full object-cover"
+                className="h-full min-h-[540px] w-full object-cover animate-fade-in"
               />
             </div>
 
-            <div className="flex flex-col justify-center p-7 sm:p-10 md:p-14">
+            <div className="flex flex-col justify-center p-6 sm:p-8 md:p-10">
 
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-vibrant-magenta)]">
                 What you may deliver
@@ -276,29 +268,27 @@ export default function HowToBecomeDeliveryPartner() {
                 Every delivery is part of someone's celebration.
               </h2>
 
-              <p className="mt-4 text-base leading-relaxed text-[var(--color-muted-foreground)]">
+              <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted-foreground)] md:text-base">
                 Deliveries may include eligible gifts, flowers, hampers,
                 celebration packages and other offerings from participating
                 sellers.
               </p>
 
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
-
+              <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
                 {deliveryTypes.map((item) => (
                   <div
                     key={item.title}
-                    className="rounded-2xl bg-[var(--color-warm-lilac)]/60 p-4"
+                    className="rounded-2xl bg-[var(--color-warm-lilac)]/60 p-3.5"
                   >
                     <h3 className="font-medium text-[var(--color-deep-plum)]">
                       {item.title}
                     </h3>
 
-                    <p className="mt-1.5 text-xs leading-relaxed text-[var(--color-muted-foreground)]">
+                    <p className="mt-1 text-xs leading-relaxed text-[var(--color-muted-foreground)]">
                       {item.copy}
                     </p>
                   </div>
                 ))}
-
               </div>
 
             </div>
@@ -360,25 +350,25 @@ export default function HowToBecomeDeliveryPartner() {
         {/* =========================================================
             TRANSPORT / FLEXIBILITY
         ========================================================== */}
-        <section className="border-y border-[var(--color-lavender-border)] bg-[var(--color-warm-lilac)]/60 px-5 py-14 sm:px-8 md:py-18">
+        <section className="bg-[var(--color-warm-lilac)]/40 px-5 py-10 sm:px-8 md:py-14">
           <div className="mx-auto grid max-w-6xl overflow-hidden rounded-[2.5rem] bg-white shadow-soft lg:grid-cols-[1.05fr_0.95fr]">
 
-            <div className="p-7 sm:p-10 md:p-14">
+            <div className="p-6 sm:p-8 md:p-10">
 
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-vibrant-magenta)]">
+              <p className="mt-15 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-vibrant-magenta)]">
                 Your availability matters
               </p>
 
-              <h2 className="mt-2 font-display text-4xl leading-tight text-[var(--color-deep-plum)] md:text-5xl">
+              <h2 className="mt-4 font-display text-3xl leading-tight text-[var(--color-deep-plum)] md:text-4xl">
                 Delivery should fit around where you can actually operate.
               </h2>
 
-              <p className="mt-4 text-base leading-relaxed text-[var(--color-muted-foreground)]">
+              <p className="mt-6 text-sm leading-relaxed text-[var(--color-muted-foreground)] md:text-base">
                 When you join the waitlist, you'll have an opportunity to tell
                 Evivi where and when you can provide delivery support.
               </p>
 
-              <div className="mt-6 space-y-3">
+              <div className="mt-4 space-y-2.5">
 
                 {[
                   "Tell us the areas you can cover.",
@@ -403,17 +393,15 @@ export default function HowToBecomeDeliveryPartner() {
 
             </div>
 
-            <div className="min-h-[340px]">
-
+            <div className="h-[520px] lg:h-[580px]">
               <img
                 src={deliveryCar}
                 alt="Delivery partner standing beside a car ready to support local deliveries"
                 loading="lazy"
                 width={1000}
-                height={1100}
+                height={1000}
                 className="h-full w-full object-cover"
               />
-
             </div>
 
           </div>
