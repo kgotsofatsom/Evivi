@@ -1,38 +1,51 @@
 import { useState, useRef, useEffect } from "react";
-import { Gift, Store, Bike, PartyPopper, Check, ChevronDown } from "lucide-react";
+import { Gift, Store, Bike, Users2, Check, ChevronDown, ChevronRight, Heart } from "lucide-react";
 
 const ROLES = [
   {
     id: "customer",
     icon: Gift,
-    title: "Buy a gift",
-    copy: "Discover and shop gifts for the moments that matter.",
+    title: "Buy Gifts",
+    copy: "Get early access to discover and shop Valentine gifts.",
+    group: "valentine",
     segment: "CUSTOMER_EARLY_ACCESS",
-    cta: "Join Early Access",
+    cta: "Get Valentine Early Access",
   },
   {
     id: "seller",
     icon: Store,
-    title: "Sell gifts",
-    copy: "Apply to sell on the marketplace.",
+    title: "Join as a Gift Seller",
+    copy: "Apply to sell on Evivi and prepare your business for Valentine 2027.",
+    group: "valentine",
     segment: "GIFT_SELLER_BETA",
-    cta: "Apply for Seller Beta",
+    cta: "Join as a Seller",
   },
   {
     id: "driver",
     icon: Bike,
-    title: "Deliver gifts",
-    copy: "Join the Evivi delivery partner network.",
+    title: "Become a Delivery Partner",
+    copy: "Join the waitlist for future Evivi delivery opportunities.",
+    group: "valentine",
     segment: "DELIVERY_PARTNER_WAITLIST",
     cta: "Join Delivery Waitlist",
   },
   {
     id: "planner",
-    icon: PartyPopper,
-    title: "I'm an event planner or supplier",
-    copy: "Join the future marketplace as a planner or supplier.",
-    segment: "FUTURE_MARKETPLACE_WAITLIST",
-    cta: "Join Future Marketplace",
+    icon: Users2,
+    title: "I'm an Event Planner or Coordinator",
+    copy: "Join the waitlist to offer your planning services on Evivi in the future.",
+    group: "future",
+    segment: "EVENT_PLANNER_WAITLIST",
+    cta: "Join the Waitlist",
+  },
+  {
+    id: "supplier",
+    icon: Store,
+    title: "I'm an Event Supplier",
+    copy: "Register your interest in supplying products or services through Evivi in the future.",
+    group: "future",
+    segment: "EVENT_SUPPLIER_WAITLIST",
+    cta: "Register Interest",
   },
 ];
 
@@ -100,7 +113,7 @@ const initialForm = {
   hasDriversLicence: "",
   hasVehicleLicence: "",
   verificationConsent: "",
-  // planner
+  // planner / supplier
   serviceCategory: [],
   website: "",
   plannerDescription: "",
@@ -109,8 +122,8 @@ const initialForm = {
 function Field({ label, children, required }) {
   return (
     <div className="block">
-      <span className="mb-1.5 block text-xs font-medium" style={{ color: "var(--color-near-black)" }}>
-        {label} {required && <span style={{ color: "var(--color-vibrant-magenta)" }}>*</span>}
+      <span className="mb-1.5 block text-sm font-medium" style={{ color: "var(--color-near-black, #1A1A1A)" }}>
+        {label} {required && <span style={{ color: "var(--color-vibrant-magenta, #C2185B)" }}>*</span>}
       </span>
       {children}
     </div>
@@ -138,10 +151,10 @@ function CustomSelect({ value, onChange, options, placeholder, disabled = false,
         type="button"
         disabled={disabled}
         onClick={() => !disabled && setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between rounded-xl border px-4 py-2.5 text-sm outline-none transition-all bg-white text-left ${
-          disabled ? "bg-gray-50 opacity-60 cursor-not-allowed" : "focus:border-[var(--color-vibrant-magenta)]"
+        className={`w-full flex items-center justify-between rounded-xl border px-4 py-2.5 text-base outline-none transition-all bg-white text-left ${
+          disabled ? "bg-gray-50 opacity-60 cursor-not-allowed" : "focus:border-[var(--color-vibrant-magenta,#C2185B)]"
         }`}
-        style={{ borderColor: "var(--color-lavender-border)" }}
+        style={{ borderColor: "var(--color-lavender-border, #E4D8F0)" }}
       >
         <span className={value ? "text-gray-900" : "text-gray-400"}>
           {value || placeholder}
@@ -150,7 +163,7 @@ function CustomSelect({ value, onChange, options, placeholder, disabled = false,
       </button>
 
       {isOpen && !disabled && (
-        <div className="absolute z-50 mt-2 max-h-60 w-full overflow-y-auto rounded-xl border bg-white py-1 shadow-lg" style={{ borderColor: "var(--color-lavender-border)" }}>
+        <div className="absolute z-50 mt-2 max-h-60 w-full overflow-y-auto rounded-xl border bg-white py-1 shadow-lg" style={{ borderColor: "var(--color-lavender-border, #E4D8F0)" }}>
           {options.map((opt) => {
             const isSelected = value === opt;
             return (
@@ -161,12 +174,12 @@ function CustomSelect({ value, onChange, options, placeholder, disabled = false,
                   onChange(opt);
                   setIsOpen(false);
                 }}
-                className={`w-full px-4 py-2 text-left text-sm transition-colors flex items-center justify-between ${
-                  isSelected ? "bg-pink-50 text-[var(--color-vibrant-magenta)] font-medium" : "text-gray-700 hover:bg-gray-50"
+                className={`w-full px-4 py-2 text-left text-base transition-colors flex items-center justify-between ${
+                  isSelected ? "bg-pink-50 text-[var(--color-vibrant-magenta,#C2185B)] font-medium" : "text-gray-700 hover:bg-gray-50"
                 }`}
               >
                 <span>{opt}</span>
-                {isSelected && <Check size={14} style={{ color: "var(--color-vibrant-magenta)" }} />}
+                {isSelected && <Check size={14} style={{ color: "var(--color-vibrant-magenta, #C2185B)" }} />}
               </button>
             );
           })}
@@ -216,8 +229,8 @@ function MultiSelect({ value, onChange, options, placeholder, required = false }
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between gap-2 rounded-xl border px-4 py-2.5 text-sm outline-none transition-all bg-white text-left focus:border-[var(--color-vibrant-magenta)]"
-        style={{ borderColor: "var(--color-lavender-border)" }}
+        className="w-full flex items-center justify-between gap-2 rounded-xl border px-4 py-2.5 text-base outline-none transition-all bg-white text-left focus:border-[var(--color-vibrant-magenta,#C2185B)]"
+        style={{ borderColor: "var(--color-lavender-border, #E4D8F0)" }}
       >
         {value.length === 0 ? (
           <span className="text-gray-400">{placeholder}</span>
@@ -227,7 +240,7 @@ function MultiSelect({ value, onChange, options, placeholder, required = false }
               <span
                 key={v}
                 className="rounded-full px-2.5 py-0.5 text-xs font-medium"
-                style={{ background: "var(--color-warm-lilac)", color: "var(--color-vibrant-magenta)" }}
+                style={{ background: "var(--color-warm-lilac, #F3E9F7)", color: "var(--color-vibrant-magenta, #C2185B)" }}
               >
                 {v}
               </span>
@@ -238,7 +251,7 @@ function MultiSelect({ value, onChange, options, placeholder, required = false }
       </button>
 
       {isOpen && (
-        <div className="absolute z-50 mt-2 max-h-60 w-full overflow-y-auto rounded-xl border bg-white py-1 shadow-lg" style={{ borderColor: "var(--color-lavender-border)" }}>
+        <div className="absolute z-50 mt-2 max-h-60 w-full overflow-y-auto rounded-xl border bg-white py-1 shadow-lg" style={{ borderColor: "var(--color-lavender-border, #E4D8F0)" }}>
           {options.map((opt) => {
             const isSelected = value.includes(opt);
             return (
@@ -246,15 +259,15 @@ function MultiSelect({ value, onChange, options, placeholder, required = false }
                 key={opt}
                 type="button"
                 onClick={() => toggleOption(opt)}
-                className={`w-full px-4 py-2 text-left text-sm transition-colors flex items-center gap-2.5 ${
-                  isSelected ? "bg-pink-50 text-[var(--color-vibrant-magenta)] font-medium" : "text-gray-700 hover:bg-gray-50"
+                className={`w-full px-4 py-2 text-left text-base transition-colors flex items-center gap-2.5 ${
+                  isSelected ? "bg-pink-50 text-[var(--color-vibrant-magenta,#C2185B)] font-medium" : "text-gray-700 hover:bg-gray-50"
                 }`}
               >
                 <span
                   className="flex h-4 w-4 shrink-0 items-center justify-center rounded border-2"
                   style={{
-                    borderColor: isSelected ? "var(--color-vibrant-magenta)" : "var(--color-lavender-border)",
-                    background: isSelected ? "var(--color-vibrant-magenta)" : "transparent",
+                    borderColor: isSelected ? "var(--color-vibrant-magenta, #C2185B)" : "var(--color-lavender-border, #E4D8F0)",
+                    background: isSelected ? "var(--color-vibrant-magenta, #C2185B)" : "transparent",
                   }}
                 >
                   {isSelected && <Check size={10} color="#fff" strokeWidth={3} />}
@@ -282,8 +295,8 @@ function MultiSelect({ value, onChange, options, placeholder, required = false }
 }
 
 const inputClass =
-  "w-full rounded-xl border px-4 py-2.5 text-sm outline-none transition-colors focus:border-[var(--color-vibrant-magenta)] bg-white";
-const inputStyle = { borderColor: "var(--color-lavender-border)" };
+  "w-full rounded-xl border px-4 py-2.5 text-base outline-none transition-colors focus:border-[var(--color-vibrant-magenta,#C2185B)] bg-white";
+const inputStyle = { borderColor: "var(--color-lavender-border, #E4D8F0)" };
 
 export default function JoinEvivi() {
   const [role, setRole] = useState("customer");
@@ -291,7 +304,7 @@ export default function JoinEvivi() {
   const [form, setForm] = useState(initialForm);
   const [touchedRole, setTouchedRole] = useState(false);
 
-    useEffect(() => {
+  useEffect(() => {
     const applyRole = (selectedRole) => {
       if (ROLES.some((r) => r.id === selectedRole)) {
         setRole(selectedRole);
@@ -355,14 +368,18 @@ export default function JoinEvivi() {
   const availableCities = form.province ? PROVINCES_AND_CITIES[form.province] || [] : [];
 
   return (
-    <section id="join" className="py-16 md:py-24" style={{ background: "var(--color-warm-lilac)" }}>
+    <section id="join" className="py-16 md:py-24" style={{ background: "var(--color-warm-lilac, #F3E9F7)" }}>
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <div className="max-w-2xl">
-          <p className="text-xs font-semibold tracking-[0.22em] text-magenta uppercase">
+          <p
+            className="text-[12px] font-semibold text-magenta uppercase"
+            style={{ letterSpacing: "1.2px", lineHeight: 1.2 }}
+          >
             Registration
           </p>
-          <h2 className="mt-3 text-4xl leading-[1.05] text-plum-deep md:text-5xl">
-            How would you like to join Evivi?
+          <h2 className="font-display mt-3 text-[28px] leading-[1.25] text-plum-deep md:text-4xl">
+            How would you like to join Evivi?{" "}
+            <Heart size={26} fill="currentColor" className="inline text-[#ff8fa3] align-middle" aria-hidden="true" />
           </h2>
           <p className="mt-4 text-base text-muted-foreground">
             One place to register — choose your role and we will only send you what is relevant.
@@ -370,58 +387,69 @@ export default function JoinEvivi() {
         </div>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-[1fr_1.15fr] lg:gap-10">
-          {/* Role cards */}
-          <div className="grid grid-cols-2 gap-4 content-start">
-            {ROLES.map(({ id, icon: Icon, title, copy }) => {
-              const isActive = role === id;
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => selectRole(id)}
-                  aria-pressed={isActive}
-                  className={`rounded-[18px] border-2 bg-white p-5 text-left transition-all duration-200 ${
-                    isActive ? "shadow-[0_10px_30px_-12px_rgba(194,24,91,0.35)]" : "hover:-translate-y-0.5"
-                  }`}
-                  style={{
-                    borderColor: isActive ? "var(--color-vibrant-magenta)" : "var(--color-lavender-border)",
-                    borderStyle: isActive ? "solid" : "dashed",
-                  }}
+          {/* Role list — grouped, single-column rows */}
+          <div className="flex flex-col gap-3">
+            {["valentine", "future"].map((group) => (
+              <div key={group}>
+                <p
+                  className="mb-3 text-[11px] font-semibold uppercase text-magenta"
+                  style={{ letterSpacing: "1.2px" }}
                 >
-                  <div className="flex items-start justify-between">
-                    <span
-                      className="flex h-11 w-11 items-center justify-center rounded-full"
-                      style={{
-                        background: isActive ? "var(--color-vibrant-magenta)" : "var(--color-warm-lilac)",
-                        color: isActive ? "#fff" : "var(--color-vibrant-magenta)",
-                      }}
-                    >
-                      <Icon size={18} />
-                    </span>
-                    <span
-                      className="flex h-5 w-5 items-center justify-center rounded-full border-2"
-                      style={{
-                        borderColor: isActive ? "var(--color-vibrant-magenta)" : "var(--color-lavender-border)",
-                        background: isActive ? "var(--color-vibrant-magenta)" : "transparent",
-                      }}
-                    >
-                      {isActive && <Check size={12} color="#fff" strokeWidth={3} />}
-                    </span>
-                  </div>
-                  <p className="mt-4 font-display text-lg font-semibold" style={{ color: "var(--color-deep-plum)" }}>
-                    {title}
-                  </p>
-                  <p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--color-muted-purple)" }}>
-                    {copy}
-                  </p>
-                </button>
-              );
-            })}
+                  {group === "valentine" ? "Available for Valentine 2027" : "Coming as Evivi expands"}
+                </p>
+                <div className="flex flex-col gap-3">
+                  {ROLES.filter((r) => r.group === group).map(({ id, icon: Icon, title, copy }) => {
+                    const isActive = role === id;
+                    return (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => selectRole(id)}
+                        aria-pressed={isActive}
+                        className="flex w-full items-center gap-4 rounded-2xl border p-4 text-left transition-all duration-200"
+                        style={{
+                          borderWidth: isActive ? "2px" : "1px",
+                          borderColor: isActive ? "var(--color-vibrant-magenta, #C2185B)" : "var(--color-lavender-border, #E4D8F0)",
+                          background: "#fff",
+                        }}
+                      >
+                        <span
+                          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+                          style={{
+                            background: isActive ? "var(--color-vibrant-magenta, #C2185B)" : "var(--color-warm-lilac, #F3E9F7)",
+                            color: isActive ? "#fff" : "var(--color-vibrant-magenta, #C2185B)",
+                          }}
+                        >
+                          <Icon size={22} aria-hidden="true" />
+                        </span>
+                        <div className="flex-1">
+                          <p className="font-display text-base font-semibold" style={{ color: "var(--color-deep-plum, #3B0D5C)" }}>
+                            {title}
+                          </p>
+                          <p className="mt-0.5 text-sm leading-relaxed" style={{ color: "var(--color-muted-purple, #6B5B7B)" }}>
+                            {copy}
+                          </p>
+                        </div>
+                        <span
+                          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2"
+                          style={{
+                            borderColor: isActive ? "var(--color-vibrant-magenta, #C2185B)" : "var(--color-lavender-border, #E4D8F0)",
+                            background: isActive ? "var(--color-vibrant-magenta, #C2185B)" : "transparent",
+                          }}
+                        >
+                          {isActive && <Check size={14} color="#fff" strokeWidth={3} />}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Dynamic form */}
-          <div className="rounded-[24px] border bg-white p-6 md:p-8" style={{ borderColor: "var(--color-lavender-border)" }}>
-            <h3 className="mb-6 font-display text-xl font-semibold" style={{ color: "var(--color-deep-plum)" }}>
+          <div className="rounded-[24px] border bg-white p-6 md:p-8" style={{ borderColor: "var(--color-lavender-border, #E4D8F0)" }}>
+            <h3 className="mb-6 font-display text-xl font-semibold" style={{ color: "var(--color-deep-plum, #3B0D5C)" }}>
               Tell us a bit about yourself
             </h3>
 
@@ -429,14 +457,14 @@ export default function JoinEvivi() {
               <div className="flex flex-col items-center py-10 text-center">
                 <span
                   className="mb-4 flex h-14 w-14 items-center justify-center rounded-full"
-                  style={{ background: "var(--color-success-green)" }}
+                  style={{ background: "var(--color-success-green, #2E7D32)" }}
                 >
                   <Check size={24} color="#fff" strokeWidth={3} />
                 </span>
-                <h4 className="font-display text-xl font-semibold" style={{ color: "var(--color-deep-plum)" }}>
+                <h4 className="font-display text-xl font-semibold" style={{ color: "var(--color-deep-plum, #3B0D5C)" }}>
                   You're on the list
                 </h4>
-                <p className="mt-2 max-w-[340px] text-sm" style={{ color: "var(--color-muted-purple)" }}>
+                <p className="mt-2 max-w-[340px] text-sm" style={{ color: "var(--color-muted-purple, #6B5B7B)" }}>
                   Thanks for joining Evivi to "{active.title}" — we'll be in touch with
                   updates as Evivi's launch gets closer.
                 </p>
@@ -598,13 +626,13 @@ export default function JoinEvivi() {
                   </>
                 )}
 
-                {/* Planner fields */}
-                {role === "planner" && (
+                {/* Planner / Supplier fields — same shape for both future-marketplace roles */}
+                {(role === "planner" || role === "supplier") && (
                   <>
                     <Field label="Business name" required>
                       <input required value={form.businessName} onChange={updateInput("businessName")} className={inputClass} style={inputStyle} />
                     </Field>
-                    <Field label="Service category" required>
+                    <Field label={role === "planner" ? "Service category" : "Products / services offered"} required>
                       <MultiSelect
                         required
                         value={form.serviceCategory}
@@ -631,23 +659,24 @@ export default function JoinEvivi() {
                     checked={form.consent}
                     onChange={updateInput("consent")}
                     className="mt-0.5 h-4 w-4 shrink-0 rounded"
-                    style={{ accentColor: "var(--color-vibrant-magenta)" }}
+                    style={{ accentColor: "var(--color-vibrant-magenta, #C2185B)" }}
                   />
-                  <span className="text-xs leading-relaxed" style={{ color: "var(--color-muted-purple)" }}>
+                  <span className="text-xs leading-relaxed" style={{ color: "var(--color-muted-purple, #6B5B7B)" }}>
                     I agree to the{" "}
-                    <a href="#" className="underline" style={{ color: "var(--color-deep-plum)" }}>
+                    <a href="#" className="underline" style={{ color: "var(--color-deep-plum, #3B0D5C)" }}>
                       Terms & Conditions
                     </a>{" "}
                     and{" "}
-                    <a href="#" className="underline" style={{ color: "var(--color-deep-plum)" }}>
+                    <a href="#" className="underline" style={{ color: "var(--color-deep-plum, #3B0D5C)" }}>
                       Privacy Policy
                     </a>
                     .
                   </span>
                 </label>
 
-                <button type="submit" className="btn-primary w-full sm:w-auto">
+                <button type="submit" className="btn-primary inline-flex w-full items-center justify-center gap-2 sm:w-auto">
                   {active.cta}
+                  <ChevronRight size={16} aria-hidden="true" />
                 </button>
               </form>
             )}
@@ -657,8 +686,3 @@ export default function JoinEvivi() {
     </section>
   );
 }
-
-
-
-
-

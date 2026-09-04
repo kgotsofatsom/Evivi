@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 export default function ClosingCTA() {
   return (
@@ -37,7 +37,7 @@ export default function ClosingCTA() {
             }}
             className="inline-flex items-center gap-1.5 text-sm text-primary-foreground/85 underline-offset-4 hover:underline"
           >
-            Sell Gifts on Evivi <ArrowRight className="size-4" />
+            Sell Gifts on Evivi <ChevronRight size={16} />
           </button>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Search, MapPin, PackageCheck, ShieldCheck, Gift, Heart } from "lucide-react";
+import { ChevronRight, Search, MapPin, PackageCheck, ShieldCheck, Gift, Heart } from "lucide-react";
 import { CTA } from "../constants/copy";
 
 const ACCENT = "#E91E63";
@@ -29,7 +29,7 @@ const benefits = [
 export default function WhyEvivi() {
   return (
     /* Why Evivi */
-    <section className="px-5 py-16 sm:px-8 md:py-16">
+    <section className="px-5 py-12 sm:px-8 md:py-12">
       <div className="mx-auto max-w-6xl">
         <div className="max-w-2xl">
           
@@ -104,9 +104,11 @@ export default function WhyEvivi() {
               className="btn-primary inline-flex w-full items-center justify-center gap-2 px-6 py-3 text-base font-semibold sm:w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-deep-plum,#3B0D5C)]/40"
             >
               {CTA.buyer.label}
-              <span aria-hidden="true">→</span>
+              <span aria-hidden="true">
+                <ChevronRight size={16}/>
+              </span>
             </a>
-            <p className="text-xs leading-snug text-muted-foreground">
+            <p className="text-xs leading-snug text-muted-foreground px-6">
               Be the first to shop and enjoy early offers.
             </p>
           </div>

@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import EviviLogo from "../assets/images/evivi-logo.png";
-
-import { CTA } from "../constants/copy";
+import { CTA, selectSellerRole } from "../constants/copy";
 
 export default function Navbar() {
     const [navTheme, setNavTheme] = useState(() => getInitialTheme());
@@ -118,9 +117,9 @@ export default function Navbar() {
                 <div className="hidden items-center gap-6 md:flex">
                     <a
                         href={CTA.seller.href}
+                        onClick={selectSellerRole}
                         className="text-sm font-medium transition-colors hover:opacity-70"
                         style={{
-                            
                             color: useLightForeground
                                 ? "var(--color-white-90, rgba(255,255,255,0.9))"
                                 : "var(--color-muted-purple, #4B2E6B)",
@@ -163,10 +162,12 @@ export default function Navbar() {
                     >
                         {CTA.buyer.label}
                     </a>
-                    
                     <a
                         href={CTA.seller.href}
-                        onClick={() => setOpen(false)}
+                        onClick={() => {
+                            selectSellerRole();
+                            setOpen(false);
+                        }}
                         className="text-sm font-bold py-3 px-6 w-full text-center block rounded-full border transition-colors hover:bg-black/5"
                         style={{
                             color: "var(--color-muted-purple, #4B2E6B)",

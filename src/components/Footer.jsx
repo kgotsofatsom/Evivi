@@ -1,4 +1,5 @@
 import EviviLogo from "../assets/images/evivi-logo.png";
+import { CTA, selectRole } from "../constants/copy";
 
 const IconInstagram = (props) => (
   <svg viewBox="0 0 24 24" width={15} height={15} fill="none" stroke="currentColor" strokeWidth={1.8} {...props}>
@@ -23,50 +24,86 @@ const IconX = (props) => (
   </svg>
 );
 
+const socials = [
+  { Icon: IconInstagram, label: "Evivi on Instagram", href: "#" },
+  { Icon: IconFacebook, label: "Evivi on Facebook", href: "#" },
+  { Icon: IconTikTok, label: "Evivi on TikTok", href: "#" },
+  { Icon: IconX, label: "Evivi on X", href: "#" },
+];
+
+// Links with `role` dispatch selectRole() and go to #join (the registration
+// form) — these are calls to action. Links without `role` scroll to an
+// existing marketing section — these are informational. Several labels below
+// (FAQs, Seller FAQ, Partner FAQ, About Evivi, Contact Us, Careers, the three
+// Legal links) have no matching section or page anywhere in what's been built
+// this session — left as "#" placeholders (marked TODO) rather than invented.
 const columns = [
   {
     title: "Shop",
-    links: ["Valentine Gifts", "How it Works", "Early Access", "FAQs"],
+    links: [
+      { label: "Valentine Gifts", href: "#valentine" },
+      { label: "How it Works", href: "#how-it-works" },
+      { label: "Early Access", href: CTA.buyer.href, role: "customer" },
+      { label: "FAQs", href: "#" }, // TODO: no FAQ section built yet
+    ],
   },
   {
     title: "Sell",
-    links: ["Sell on Evivi", "Seller Benefits", "Seller FAQ", "Apply to Sell"],
+    links: [
+      { label: "Sell on Evivi", href: CTA.seller.href, role: "seller" },
+      { label: "Seller Benefits", href: "#seller-beta" },
+      { label: "Seller FAQ", href: "#" }, // TODO: no FAQ section built yet
+      { label: "Apply to Sell", href: CTA.seller.href, role: "seller" },
+    ],
   },
   {
     title: "Partners",
-    links: ["Delivery Partners", "Event Planners & Coordinators", "Partner FAQ"],
+    links: [
+      { label: "Delivery Partners", href: "#delivery" },
+      { label: "Event Planners & Coordinators", href: "#beyond" },
+      { label: "Partner FAQ", href: "#" }, // TODO: no FAQ section built yet
+    ],
   },
   {
     title: "Company",
-    links: ["About Evivi", "Our Vision", "Contact Us", "Careers"],
+    links: [
+      { label: "About Evivi", href: "#" }, // TODO: no About page/section built yet
+      { label: "Our Vision", href: "#beyond" },
+      { label: "Contact Us", href: "#" }, // TODO: no contact page built yet
+      { label: "Careers", href: "#" }, // TODO: no careers page built yet
+    ],
   },
   {
     title: "Legal",
-    links: ["Terms & Conditions", "Privacy Policy", "Seller Agreement"],
+    links: [
+      { label: "Terms & Conditions", href: "#" }, // TODO: no legal pages built yet
+      { label: "Privacy Policy", href: "#" },
+      { label: "Seller Agreement", href: "#" },
+    ],
   },
 ];
 
 export default function Footer() {
   return (
-    <footer style={{ background: "var(--color-footer-plum)" }} className="pt-16 pb-8 text-white">
+    <footer style={{ background: "var(--color-footer-plum, #2A0A42)" }} className="pt-16 pb-8 text-white">
       <div className="mx-auto max-w-[1280px] px-5 md:px-8">
         <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:grid-cols-[1.4fr_repeat(5,1fr)]">
           <div>
             <img
-                src={EviviLogo}
-                alt="Evivi"
-                className="h-10 w-auto md:h-12 object-contain"
+              src={EviviLogo}
+              alt="Evivi"
+              className="h-10 w-auto md:h-12 object-contain"
             />
             <p className="mt-4 max-w-[220px] text-sm leading-relaxed text-white/60">
               A celebration marketplace. Launching with Valentine gifting.
               Building the future of celebrations.
             </p>
             <div className="mt-5 flex items-center gap-3">
-              {[IconInstagram, IconFacebook, IconTikTok, IconX].map((Icon, i) => (
+              {socials.map(({ Icon, label, href }) => (
                 <a
-                  key={i}
-                  href="#"
-                  aria-label="Evivi on social media"
+                  key={label}
+                  href={href}
+                  aria-label={label}
                   className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white"
                 >
                   <Icon size={15} />
@@ -80,9 +117,13 @@ export default function Footer() {
               <h4 className="text-sm font-medium text-white/90">{col.title}</h4>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-sm text-white/55 transition-colors hover:text-white">
-                      {link}
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      onClick={link.role ? () => selectRole(link.role) : undefined}
+                      className="text-sm text-white/55 transition-colors hover:text-white"
+                    >
+                      {link.label}
                     </a>
                   </li>
                 ))}

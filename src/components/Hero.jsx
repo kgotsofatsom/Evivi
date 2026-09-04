@@ -1,4 +1,4 @@
-import { Heart, Gift, Store, Bike, CalendarDays, Briefcase, Mail } from "lucide-react";
+import { Heart, Gift, Store, Bike, CalendarDays, Briefcase, Mail, ChevronRight } from "lucide-react";
 import HeroImage from "../assets/images/hero-image.jpg";
 import HeroMobileImage from "../assets/images/Hero-mobile.jpg";
 import { CTA } from "../constants/copy";
@@ -90,7 +90,6 @@ export default function Hero() {
           <div className="fade-up">
             {/* 1. Valentine Launch Badge */}
             <span className="section-eyebrow mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-white backdrop-blur-md border border-white/20 text-sm font-medium">
-              {/* Fix: spec calls for line-style icons; this was filled. */}
               <Heart size={16} className="text-[#ff8fa3]" aria-hidden="true" />
               LAUNCHING WITH VALENTINE GIFTING
             </span>
@@ -98,7 +97,7 @@ export default function Hero() {
             {/* 2. Strong, Emotional Headline */}
             <h1 className="font-display text-[2.5rem] leading-[1.1] font-medium md:text-[3.8rem] md:leading-[1.08] text-white drop-shadow-md">
               Find the right gift. Make the moment happen.{" "}
-              {/* Fix: wireframe shows a small heart glyph closing the headline. */}
+              
               <Heart
                 size={28}
                 fill="currentColor"
@@ -124,7 +123,7 @@ export default function Hero() {
             <div className="mt-8 flex flex-col sm:flex-row gap-4">
               <a
                 href={CTA.buyer.href}
-                className="btn-primary uppercase shadow-lg flex items-center gap-4 px-6 py-4 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3B0D5C]"
+                className="btn-primary uppercase shadow-lg flex items-center gap-4 px-4 py-4 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3B0D5C]"
               >
                 <div className="p-2 rounded-lg bg-white/10 backdrop-blur-sm shrink-0">
                   <Gift size={ICON_SIZE} className="text-white" aria-hidden="true" />
@@ -139,7 +138,7 @@ export default function Hero() {
 
               <a
                 href={CTA.seller.href}
-                className="btn-secondary uppercase bg-white/10 text-white border-white/30 hover:bg-white/20 backdrop-blur-md shadow-lg flex items-center gap-4 px-6 py-4 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3B0D5C]"
+                className="btn-secondary uppercase bg-white/10 text-white border-white/30 hover:bg-white/20 backdrop-blur-md shadow-lg flex items-center gap-4 px-4 py-4 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3B0D5C]"
               >
                 <div className="p-2 rounded-lg bg-white/10 backdrop-blur-sm shrink-0">
                   <Store size={ICON_SIZE} className="text-[#ff8fa3]" aria-hidden="true" />
@@ -172,7 +171,7 @@ export default function Hero() {
                 >
                   <Icon size={ICON_SIZE} className="text-[#ff8fa3] shrink-0" aria-hidden="true" />
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-sm font-bold text-white group-hover:text-[#ff8fa3] transition-colors leading-snug">
+                    <h3 className="text-sm font-body text-white/80 group-hover:text-[#ff8fa3] transition-colors leading-snug">
                       {title}
                     </h3>
                     <p className="text-[12px] text-purple-200/70 mt-0.5 line-clamp-2">{copy}</p>
@@ -181,7 +180,7 @@ export default function Hero() {
                     className="text-white/50 group-hover:translate-x-1 transition-transform shrink-0"
                     aria-hidden="true"
                   >
-                    →
+                    <ChevronRight size={16} />
                   </span>
                 </a>
               ))}
