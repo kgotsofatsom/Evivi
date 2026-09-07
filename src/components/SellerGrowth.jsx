@@ -40,13 +40,13 @@ export default function SellerGrowth() {
                 </p>
               </div>
             </div>
-            <div className="mt-8 w-full flex flex-wrap items-center gap-6">
+            <div className="mt-8 flex flex-col gap-3 sm:w-full sm:flex-row sm:flex-wrap sm:items-center sm:gap-6">
               <button
                 type="button"
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent("evivi-select-role", { detail: "seller" }));
                 }}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 font-medium text-plum-deep transition-transform md:hover:-translate-y-0.5"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 font-medium text-plum-deep transition-transform sm:w-auto md:hover:-translate-y-0.5"
               >
                 {CTA.seller.label}
                 <ChevronRight size={16} aria-hidden="true" />
@@ -54,7 +54,7 @@ export default function SellerGrowth() {
 
               <Link
                 to="/HowToSell"
-                className="inline-flex items-center justify-center gap-1 rounded-full border border-white/40 px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-white/10 sm:rounded-none sm:border-0 sm:px-0 sm:py-0 sm:text-base sm:underline sm:underline-offset-4 sm:hover:bg-transparent sm:hover:opacity-80"
+                className="inline-flex w-full items-center justify-center gap-1 rounded-full border border-white/40 px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-white/10 sm:w-auto sm:rounded-none sm:border-0 sm:px-0 sm:py-0 sm:text-base sm:underline sm:underline-offset-4 sm:hover:bg-transparent sm:hover:opacity-80"
               >
                 See How Selling Works
                 <ChevronRight size={14} aria-hidden="true" />
