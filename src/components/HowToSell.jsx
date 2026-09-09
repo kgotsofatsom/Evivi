@@ -234,7 +234,7 @@ export default function HowToSell() {
                 loading="lazy"
                 width={1200}
                 height={1000}
-                className="h-full min-h-[540px] w-full object-cover animate-fade-in"
+                className="h-full w-full object-cover animate-fade-in"
               />
             </div>
 
