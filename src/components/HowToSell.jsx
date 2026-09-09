@@ -227,7 +227,7 @@ export default function HowToSell() {
           <div className="mx-auto grid w-full max-w-6xl overflow-hidden rounded-[2rem] bg-white shadow-soft lg:min-h-[calc(85vh-5rem)] lg:grid-cols-2">
 
             {/* Image */}
-            <div className="hidden h-[420px] self-center lg:block lg:h-[460px]">
+            <div className="hidden h-[440px] self-center lg:block lg:h-[480px]">
               <img
                 src={sellerCraft}
                 alt="A gift seller creating and preparing a celebration gift"
