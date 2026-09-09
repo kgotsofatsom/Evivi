@@ -32,11 +32,12 @@ export default function ValentineExperience() {
             Valentine 2027
           </p>
           <h2 className="font-display mt-3 text-[28px] leading-[1.25] text-plum-deep md:text-4xl">
-            Make Valentine's Day about the moment — not the last-minute rush.{" "}
+            ## Make Valentine's Day about the moment, not the last-minute rush.{" "}
             <Heart size={26} fill="currentColor" className="inline text-[#ff8fa3] align-middle" aria-hidden="true" />
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            For Valentine 2027, Evivi is bringing together ready-to-order gifts from local gift sellers — from flowers and chocolates to hampers, romantic gift bundles and thoughtful add-ons.
+            This Valentine’s Day, Evivi is bringing together ready-to-order gifts from local gift sellers, 
+            from flowers and chocolates to hampers, romantic gift bundles and thoughtful add-ons.
           </p>
           <p
             className="mt-6 text-[12px] font-semibold text-magenta uppercase"
@@ -78,7 +79,7 @@ export default function ValentineExperience() {
       </div>
       <p className="mx-auto mt-10 flex max-w-2xl items-center justify-center gap-2 text-center font-display text-lg text-plum">
         <Sparkles size={18} className="shrink-0 text-[#ff8fa3]" aria-hidden="true" />
-        Valentine is where Evivi starts — not where it ends.
+        Valentine’s Day is where Evivi starts, but it’s only the beginning.
       </p>
     </section>
   );

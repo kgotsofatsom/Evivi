@@ -95,14 +95,16 @@ export default function DeliveryPartners() {
           </span>
         </div>
 
-        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+        <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {whyJoin.map(({ icon: Icon, title, copy }) => (
             <li key={title} className="rounded-2xl border border-border/70 bg-card p-5 lg:p-6">
-              <span className="flex size-11 items-center justify-center rounded-xl bg-accent/60 text-[#E91E63]">
-                <Icon size={22} aria-hidden="true" />
-              </span>
-              <h3 className="mt-3 text-base font-semibold leading-[1.4] text-plum-deep">{title}</h3>
-              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{copy}</p>
+              <div className="flex items-center gap-3">
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent/60 text-[#E91E63]">
+                  <Icon size={22} aria-hidden="true" />
+                </span>
+                <h3 className="text-base font-semibold leading-[1.4] text-plum-deep">{title}</h3>
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{copy}</p>
             </li>
           ))}
         </ul>

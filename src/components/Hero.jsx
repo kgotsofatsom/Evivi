@@ -108,7 +108,8 @@ export default function Hero() {
 
             {/* 3. Clear Platform Description */}
             <p className="mt-5 max-w-[640px] text-[1.05rem] md:text-[1.15rem] leading-relaxed text-purple-100 drop-shadow">
-              Evivi is a marketplace for gifts and celebrations — connecting gift buyers with local gift sellers today, with Event Planners & Coordinators and Event Suppliers coming as we expand.
+              Evivi is a marketplace for gifts and celebrations. It connects people looking for gifts with local gift sellers, 
+              making it easier to find and buy gifts today. As Evivi grows, we plan to bring Event Planners & Coordinators and Event Suppliers onto the platform as well.
             </p>
 
             {/* 4. Valentine Positioning */}

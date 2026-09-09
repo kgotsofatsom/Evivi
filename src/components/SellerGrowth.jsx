@@ -86,9 +86,9 @@ export default function SellerGrowth() {
                   {/* 4. Mobile only (below sm): icon sits left, full height of
                       the title+description block — matches Screen 5's card
                       layout. */}
-                  <div className="flex items-stretch gap-4 sm:hidden">
+                  <div className="flex items-start gap-4 sm:hidden">
                     <span
-                      className="flex w-14 shrink-0 items-center justify-center rounded-xl bg-secondary"
+                      className="flex size-14  shrink-0 items-center justify-center rounded-xl bg-secondary"
                       style={{ color: ACCENT }}
                     >
                       <item.icon size={24} aria-hidden="true" />

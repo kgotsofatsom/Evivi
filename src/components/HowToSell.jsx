@@ -287,7 +287,7 @@ export default function HowToSell() {
                   loading="lazy"
                   width={1000}
                   height={900}
-                  className="aspect-[4/3] w-full object-cover"
+                  className="h-full w-full object-cover"
                 />
               </div>
 

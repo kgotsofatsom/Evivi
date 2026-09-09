@@ -62,7 +62,7 @@ export default function BeyondValentine() {
           </span>
           <span className="h-px flex-1 bg-border" />
         </div>
-        <ul className="mt-5 grid gap-3 lg:grid-cols-3 lg:items-stretch">
+        <ul className="mt-5 grid gap-3 lg:grid-cols-2 lg:items-stretch">
           {ecosystemRoles.map(({ icon: Icon, title, copy }) => (
             <li
               key={title}
